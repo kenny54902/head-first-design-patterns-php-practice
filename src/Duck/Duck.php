@@ -2,7 +2,7 @@
 
 namespace Kenny\DesignPattern\Duck;
 
-abstract class Duck
+abstract class Duck implements DuckInterface
 {
     protected FlyBehavior $flyBehavior;
 
