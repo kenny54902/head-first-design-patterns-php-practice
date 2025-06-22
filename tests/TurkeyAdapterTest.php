@@ -18,7 +18,7 @@ class TurkeyAdapterTest extends TestCase
         $turkey = new Turkey();
         $duck = new TurkeyAdapter($turkey);
         $this->assertTrue(self::testDuck($duck));
-        ob_clean();
+        ob_end_clean();
     }
 
     private static function testDuck(DuckInterface $duck)
