@@ -7,10 +7,14 @@ class HasQuarterState implements State
 
     private GumballMachine2 $gumballMachine2;
 
-    public function __construct(GumballMachine2 $gumballMachine2)
+    private LotteryStrate $lotteryStrate;
+
+    public function __construct(GumballMachine2 $gumballMachine2, ?LotteryStrate $lotteryStrate = null)
     {
         $this->gumballMachine2 = $gumballMachine2;
+        $this->lotteryStrate = $lotteryStrate ?: new DefaultLotteryStrate();
     }
+
     public function insertQuarter()
     {
         echo "You already inserted a quarter\n";
@@ -26,7 +30,7 @@ class HasQuarterState implements State
     public function turnCrank()
     {
         echo "You turned...\n";
-        if (random_int(0, 10) == 1) {
+        if ($this->lotteryStrate->isWinner()) {
             $this->gumballMachine2->setState($this->gumballMachine2->getWinnerState());
         } else {
             $this->gumballMachine2->setState($this->gumballMachine2->getSoldState());

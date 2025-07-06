@@ -1,5 +1,7 @@
 <?php
 
+use Kenny\DesignPattern\State\AlwaysLoseLotteryStrate;
+use Kenny\DesignPattern\State\AlwaysWinLotteryStrate;
 use Kenny\DesignPattern\State\GumballMachine;
 use Kenny\DesignPattern\State\GumballMachine2;
 use Kenny\DesignPattern\State\NoQuarterState;
@@ -43,7 +45,7 @@ class GumballMachineTest extends TestCase
     public function testGumballMachine2()
     {
         ob_start();
-        $gumballMachine = new GumballMachine2(4);
+        $gumballMachine = new GumballMachine2(4, new AlwaysLoseLotteryStrate());
         $this->assertInstanceOf(NoQuarterState::class, $gumballMachine->getState());
 
         $gumballMachine->insertQuarter();
@@ -74,21 +76,11 @@ class GumballMachineTest extends TestCase
 
     public function testWinner()
     {
-        $gumballMachine = new GumballMachine2(100);
-        $maxAttempts = 100;
-        $foundWinner = false;
-        for ($i = 0; $i < $maxAttempts; $i++) {
-            ob_start();
-            $gumballMachine->insertQuarter();
-            $gumballMachine->turnCrank();
-            $output = ob_get_clean();
-
-            if (strpos($output, "winner") !== false) {
-                $foundWinner = true;
-                break;
-            }
-        }
-
-        $this->assertEquals(true, $foundWinner);
+        $gumballMachine = new GumballMachine2(100, new AlwaysWinLotteryStrate());
+        ob_start();
+        $gumballMachine->insertQuarter();
+        $gumballMachine->turnCrank();
+        $output = ob_get_clean();
+        $this->assertStringContainsString('winner', strtolower($output));
     }
 }

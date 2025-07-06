@@ -19,11 +19,11 @@ class GumballMachine2
 
     private int $count = 0;
 
-    public function __construct(int $count)
+    public function __construct(int $count, ?LotteryStrate $lotteryStrate = null)
     {
 
         $this->noQuarterState = new NoQuarterState($this);
-        $this->hasQuarterState = new HasQuarterState($this);
+        $this->hasQuarterState = new HasQuarterState($this, $lotteryStrate);
         $this->soldOutState = new SoldOutState($this);
         $this->soldState = new SoldState($this);
         $this->winnerState = new WinnerState($this);
